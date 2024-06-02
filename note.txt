@@ -1,0 +1,57 @@
+    
+date,b3001,b3002,b3003,b3004,b3005,b3006,b3007,b3008,b3009,b3010,b3011,b3012,b3013  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report
+from sklearn.preprocessing import OneHotEncoder, LabelEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+
+
+features = ['date','b3001','b3002','b3003','b3004','b3005','b3006','b3007','b3008','b3009','b3010','b3011','b3012','b3013']
+
+target_variables = ['location']
+
+# Create a new DataFrame without missing values
+data_no_missing = data.dropna(subset=target_variables)
+
+X = data_no_missing[features]
+y = data_no_missing[target_variables]
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize a RandomForestClassifier
+classifier = RandomForestClassifier(n_estimators=1000, random_state=42)
+
+# Train the classifier
+classifier.fit(X, y.values.ravel())  # Using ravel() to flatten y_train
+
+# predicting on test set
+y_pred = classifier.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+
